@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lumen Choir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400&family=Syne:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #050506; color: #f7f3ea; overflow: hidden; }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .copy {
+      position: relative; z-index: 2; height: 100%;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 32px 6vw 36px; pointer-events: none;
+    }
+    .kicker { font-family: Syne, sans-serif; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: #d7b56a; }
+    h1 {
+      font-family: "Cormorant Garamond", serif; font-size: clamp(3rem, 8vw, 6.4rem);
+      font-weight: 500; letter-spacing: -0.03em; line-height: 0.9; max-width: 10ch;
+    }
+    h1 em { font-style: italic; color: #ffe7a8; }
+    .voices {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;
+      font-family: Syne, sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #9a9384;
+    }
+    .voices b { display: block; color: #f7f3ea; margin-bottom: 6px; font-weight: 600; }
+    @media (max-width: 720px) { .voices { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <canvas id="choir"></canvas>
+  <div class="copy">
+    <p class="kicker">Typography as light</p>
+    <h1>A choir of <em>letters</em></h1>
+    <div class="voices">
+      <div><b>Soprano</b> bloom</div>
+      <div><b>Alto</b> drift</div>
+      <div><b>Tenor</b> gather</div>
+      <div><b>Bass</b> hold</div>
+    </div>
+  </div>
+  <script>
+    const canvas = document.getElementById("choir");
+    const ctx = canvas.getContext("2d");
+    const word = "LUMEN";
+    let particles = [];
+    function layout() {
+      canvas.width = innerWidth * devicePixelRatio;
+      canvas.height = innerHeight * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      const off = document.createElement("canvas");
+      const octx = off.getContext("2d");
+      off.width = innerWidth;
+      off.height = innerHeight;
+      octx.fillStyle = "#fff";
+      octx.font = `600 ${Math.min(innerWidth, 1100) * 0.18}px "Cormorant Garamond", serif`;
+      octx.textAlign = "center";
+      octx.textBaseline = "middle";
+      octx.fillText(word, innerWidth / 2, innerHeight * 0.46);
+      const data = octx.getImageData(0, 0, off.width, off.height).data;
+      particles = [];
+      for (let y = 0; y < off.height; y += 5) {
+        for (let x = 0; x < off.width; x += 5) {
+          if (data[(y * off.width + x) * 4 + 3] > 20) {
+            particles.push({
+              x, y,
+              ox: x, oy: y,
+              vx: 0, vy: 0,
+              hue: 42 + Math.random() * 18,
+            });
+          }
+        }
+      }
+    }
+    let mx = innerWidth / 2, my = innerHeight / 2;
+    addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; });
+    function draw() {
+      ctx.fillStyle = "rgba(5,5,6,0.28)";
+      ctx.fillRect(0, 0, innerWidth, innerHeight);
+      particles.forEach((p) => {
+        const dx = p.x - mx, dy = p.y - my;
+        const d = Math.max(24, Math.hypot(dx, dy));
+        const f = 420 / (d * d);
+        p.vx += dx * f * 0.04;
+        p.vy += dy * f * 0.04;
+        p.vx += (p.ox - p.x) * 0.03;
+        p.vy += (p.oy - p.y) * 0.03;
+        p.vx *= 0.86;
+        p.vy *= 0.86;
+        p.x += p.vx;
+        p.y += p.vy;
+        ctx.fillStyle = `hsla(${p.hue}, 80%, 72%, 0.9)`;
+        ctx.fillRect(p.x, p.y, 2.2, 2.2);
+      });
+      requestAnimationFrame(draw);
+    }
+    addEventListener("resize", layout);
+    layout();
+    requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-scheme="dark" data-palette="star">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const palettes = new Set(["star", "mono", "sepia", "azure", "moss", "mauve"]);
+        try {
+          const savedTheme = localStorage.getItem("starx-theme") || localStorage.getItem("threeui-theme");
+          const lightPalette = localStorage.getItem("starx-palette-light") || localStorage.getItem("threeui-palette-light");
+          const darkPalette = localStorage.getItem("starx-palette-dark") || localStorage.getItem("threeui-palette-dark");
+          const mode = savedTheme === "light" || savedTheme === "system" ? savedTheme : "dark";
+          if (mode === "system") root.removeAttribute("data-theme");
+          else root.dataset.theme = mode;
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const scheme = mode === "system" ? (prefersDark ? "dark" : "light") : mode;
+          root.dataset.scheme = scheme;
+          const palette = scheme === "dark" ? darkPalette : lightPalette;
+          root.dataset.palette = palettes.has(palette) ? palette : "star";
+        } catch {
+          root.dataset.theme = "dark";
+          root.dataset.scheme = "dark";
+          root.dataset.palette = "star";
+        }
+      })();
+    </script>
+    <meta
+      name="description"
+      content="An open catalog of live Three.js heroes, WebGL backgrounds, and copy-ready React components. Browse, tweak, and ship."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="StarX UI" />
+    <meta property="og:title" content="Three.js Components &amp; Interactive Shaders | StarX UI" />
+    <meta property="og:description" content="An open catalog of live Three.js heroes, WebGL backgrounds, and copy-ready React components. Browse, tweak, and ship." />
+    <meta property="og:url" content="/browse" />
+    <meta property="og:image:alt" content="StarX UI component gallery preview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Three.js Components &amp; Interactive Shaders | StarX UI" />
+    <meta name="twitter:description" content="An open catalog of live Three.js heroes, WebGL backgrounds, and copy-ready React components. Browse, tweak, and ship." />
+    <meta name="twitter:image:alt" content="StarX UI component gallery preview" />
+    <link rel="canonical" href="/browse" />
+    <link rel="icon" href="/starx-mark.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Three.js Components &amp; Interactive Shaders | StarX UI</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

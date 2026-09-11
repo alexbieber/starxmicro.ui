@@ -1,0 +1,79 @@
+{
+  "name": "starx-ui",
+  "version": "1.3.0",
+  "description": "StarX UI — open-source Three.js components and interactive shaders, forked from ThreeUI Community.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib-dist/index.js",
+  "module": "./lib-dist/index.js",
+  "types": "./lib-dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib-dist/index.d.ts",
+      "import": "./lib-dist/index.js",
+      "default": "./lib-dist/index.js"
+    },
+    "./style.css": "./lib-dist/style.css",
+    "./components/*": {
+      "types": "./lib-dist/package-components/*.d.ts",
+      "import": "./lib-dist/package-components/*.js",
+      "default": "./lib-dist/package-components/*.js"
+    },
+    "./assets/*": "./lib-dist/assets/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib-dist",
+    "LICENSE",
+    "ASSET-LICENSES.md",
+    "FONT-LICENSES.md",
+    "THIRD_PARTY_NOTICES.md",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "homepage": ".",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "dev": "vite",
+    "sync:community": "node scripts/sync-community-from-main.mjs",
+    "generate:lib": "node scripts/generate-library-entry.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test scripts/community-sanitizers.test.mjs scripts/public-boundary.test.mjs scripts/library-package.test.mjs scripts/prepare-community-release.test.mjs packages/cli/test/*.test.mjs",
+    "audit:public": "node scripts/audit-public.mjs",
+    "build:site": "npm run typecheck && npm run audit:public && vite build && node scripts/audit-build.mjs",
+    "build:lib": "npm run generate:lib && vite build --config vite.lib.config.js && tsc -p tsconfig.lib.json && node scripts/copy-library-assets.mjs",
+    "build": "npm run test && npm run build:site && npm run build:lib",
+    "prepack": "npm run test && npm run audit:public && npm run build:lib",
+    "smoke:package": "node scripts/package-install-smoke.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three128": "npm:three@0.128.0",
+    "three165": "npm:three@0.165.0"
+  },
+  "peerDependencies": {
+    "react": ">=18 <20",
+    "react-dom": ">=18 <20",
+    "three": ">=0.149 <1"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "0.149.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "three": "0.149.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0"
+  }
+}

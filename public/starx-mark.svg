@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">StarX UI</title>
+  <desc id="desc">A circular mark with a four-point star cutout.</desc>
+  <style>
+    .starx-mark { fill: #0b0c10; }
+    @media (prefers-color-scheme: dark) {
+      .starx-mark { fill: #f4f1ea; }
+    }
+  </style>
+  <defs>
+    <mask id="starx-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="#000" />
+      <circle cx="256" cy="256" r="208" fill="#fff" />
+      <path fill="#000" d="M256 96l28 132 132 28-132 28-28 132-28-132-132-28 132-28z" />
+    </mask>
+  </defs>
+  <rect class="starx-mark" width="512" height="512" mask="url(#starx-cut)" />
+</svg>

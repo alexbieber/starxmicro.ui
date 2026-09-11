@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aurora Atelier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #071018;
+      --paper: #e8f4ef;
+      --muted: #8aa8a0;
+      --gold: #e8c37a;
+      --veil: rgba(232, 244, 239, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; background: var(--ink); color: var(--paper); }
+    body { font-family: Syne, sans-serif; overflow-x: hidden; }
+    canvas#sky {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .grain {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.18;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.5'/></svg>");
+    }
+    header, main, footer { position: relative; z-index: 2; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 6vw; letter-spacing: 0.22em; font-size: 11px; text-transform: uppercase;
+    }
+    header strong { letter-spacing: 0.08em; font-size: 13px; color: var(--gold); }
+    nav { display: flex; gap: 28px; color: var(--muted); }
+    .hero { min-height: 88vh; display: grid; place-items: center; padding: 8vh 8vw 12vh; text-align: center; }
+    .hero p.kicker {
+      font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif; font-weight: 400; font-size: clamp(3.4rem, 9vw, 7.4rem);
+      line-height: 0.92; letter-spacing: -0.03em; max-width: 14ch;
+    }
+    h1 em { font-style: italic; color: #b8ffe0; }
+    .hero .lede {
+      margin: 28px auto 0; max-width: 42ch; color: var(--muted); font-size: 15px; line-height: 1.7;
+    }
+    .cta {
+      margin-top: 40px; display: inline-flex; align-items: center; gap: 12px;
+      padding: 14px 22px; border: 1px solid rgba(232, 195, 122, 0.45);
+      border-radius: 999px; color: var(--gold); text-decoration: none; letter-spacing: 0.16em;
+      font-size: 11px; text-transform: uppercase;
+      background: rgba(232, 195, 122, 0.06);
+    }
+    .cta:hover { background: rgba(232, 195, 122, 0.14); }
+    .chapters {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;
+      padding: 0 6vw 14vh;
+    }
+    .chapter {
+      padding: 28px 24px 32px; border: 1px solid var(--veil); border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+      backdrop-filter: blur(18px); min-height: 220px;
+    }
+    .chapter span { display: block; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+    .chapter h2 { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 500; margin-bottom: 12px; }
+    .chapter p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    footer {
+      display: flex; justify-content: space-between; padding: 32px 6vw 48px;
+      color: var(--muted); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    @media (max-width: 800px) {
+      nav { display: none; }
+      .chapters { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="sky"></canvas>
+  <div class="grain"></div>
+  <header>
+    <strong>Aurora Atelier</strong>
+    <nav><span>Index</span><span>Night desk</span><span>Archive</span></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="kicker">Studio 64 · Polar latitude</p>
+        <h1>Work that <em>glows</em> after midnight</h1>
+        <p class="lede">A nocturnal practice for interfaces that behave like weather: slow, luminous, and slightly impossible.</p>
+        <a class="cta" href="#chapters">Enter the atelier</a>
+      </div>
+    </section>
+    <section class="chapters" id="chapters">
+      <article class="chapter">
+        <span>01 · Field</span>
+        <h2>Curtain of ions</h2>
+        <p>Ribbon light is not decoration. It is the room. Copy, type, and calls-to-action sit inside the aurora rather than on top of it.</p>
+      </article>
+      <article class="chapter">
+        <span>02 · Desk</span>
+        <h2>Quiet tools</h2>
+        <p>Glass plates, gold rules, and serif titles. Everything is large enough to feel ceremonial and still small enough to ship.</p>
+      </article>
+      <article class="chapter">
+        <span>03 · Hour</span>
+        <h2>After 1:14</h2>
+        <p>The best screens happen when the city is asleep. This page is tuned for that hour: low contrast, long breath, a single gold signal.</p>
+      </article>
+    </section>
+  </main>
+  <footer>
+    <span>69.65° N</span>
+    <span>StarX original</span>
+  </footer>
+  <script>
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    const ribbons = Array.from({ length: 5 }, (_, i) => ({
+      hue: 150 + i * 18,
+      amp: 48 + i * 18,
+      speed: 0.00022 + i * 0.00005,
+      phase: i * 1.3,
+    }));
+    function resize() {
+      canvas.width = innerWidth * devicePixelRatio;
+      canvas.height = innerHeight * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+    function draw(t) {
+      const w = innerWidth, h = innerHeight;
+      ctx.fillStyle = "#071018";
+      ctx.fillRect(0, 0, w, h);
+      const g = ctx.createRadialGradient(w * 0.5, h * 0.18, 20, w * 0.5, h * 0.4, w * 0.7);
+      g.addColorStop(0, "rgba(90, 220, 180, 0.16)");
+      g.addColorStop(1, "rgba(7, 16, 24, 0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+      ribbons.forEach((r, i) => {
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += 8) {
+          const y = h * 0.28 + Math.sin(x * 0.004 + t * r.speed + r.phase) * r.amp
+            + Math.sin(x * 0.01 + t * 0.0004 + i) * 18;
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = `hsla(${r.hue}, 70%, 68%, 0.28)`;
+        ctx.lineWidth = 18;
+        ctx.stroke();
+      });
+      requestAnimationFrame(draw);
+    }
+    addEventListener("resize", resize);
+    resize();
+    requestAnimationFrame(draw);
+  </script>
+</body>
+</html>
